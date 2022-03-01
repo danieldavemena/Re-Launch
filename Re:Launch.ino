@@ -11,8 +11,8 @@ const int bnum = 12;
 const int pnum = 2;
 
 //Button Mode Pins
-int midi_mode = 8;
-int key_mode = 9;
+int midi_mode = 10;
+int key_mode = 11;
 
 // Potentiometer Pins
 int pots[pnum] = {A1, A2};
@@ -73,14 +73,13 @@ void controlChange(byte channel, byte control, byte value) {
 */ // Pro Micro
 
 void loop() {
-
-  if (midi_mode == 0) {
+  if (midi_mode == 0) { // Launchpad Mode
     // Button Method
     button();
 
     // Potentiomter Method
     pot();
-  } else if (key_mode == 0) {
+  } else if (key_mode == 0) { // Keyboard Mode
     // Keyboard Method
     key();
   }
@@ -234,5 +233,5 @@ void pot() {
 }
 
 void key() {
-  
+
 }
