@@ -31,7 +31,7 @@ Hardware Requirements:
 **Build Instruction**
 #
 1. Preparing the enclosure
-  > Print "drilltemplate.svg"
+  - Print "drilltemplate.svg"
   - Attach the template on the acrylic with adhesive
   - Start drilling holes
   - NOTE: MAKE SURE TO DRILL A HOLE IN THE MIDDLE BEFOR PROCEEDING WITH HOLE SAW
