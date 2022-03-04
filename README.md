@@ -6,6 +6,6 @@ Re: Launch is a free and open-source software for Arduino microcontrollers such 
 
 **Requirements:**
 
-MIDIUSB(for Pro Micro)
-MIDI(for Uno)
-MUX74HC4067 - https://github.com/nlamprian/MUX74HC4067
+- MIDIUSB(for Pro Micro)
+- MIDI(for Uno)
+- MUX74HC4067 - https://github.com/nlamprian/MUX74HC4067
