@@ -26,3 +26,11 @@ Hardware Requirements:
 - 4pcs  M3 standoffs
 - CD74HC4067 multiplexer board
 - 4pcs volume knobs
+
+#
+**Build Instruction**
+#
+1. Preparing the enclosure
+  a. Download and print "drilltemplate.svg"
+  b. Attach the template on the acrylic with adhesive
+  c. 
