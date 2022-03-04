@@ -31,6 +31,22 @@ Hardware Requirements:
 **Build Instruction**
 #
 1. Preparing the enclosure
-  a. Download and print "drilltemplate.svg"
-  b. Attach the template on the acrylic with adhesive
-  c. 
+  - Print "drilltemplate.svg"
+  - Attach the template on the acrylic with adhesive
+  - Start drilling holes
+  - NOTE: MAKE SURE TO DRILL A HOLE IN THE MIDDLE BEFOR PROCEEDING WITH HOLE SAW
+
+2. Preparing the software
+  - Download the necessary libraries
+  - Upload the arduino code "Re_Launch.ino"
+  - Test the connections on a breadboard, follow "Schematics.png"
+
+3. Preparing the perfboard
+  - If using a female and male pin headers, attach the female header to the perfboard then attach the multiplexer and arduino to its proper connections
+  - If not, attach the wires and boards directly to the perfboard
+
+4. Finishing
+  - Attach the buttons, potentiometers, encoder, and the perfboard to the aryclic according to the template
+  - Start soldering the parts
+  - Close the case by using M3 standoffs
+  - Connect Re: Launch with your PC and test with your favorite DAW
