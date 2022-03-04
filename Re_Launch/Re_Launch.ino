@@ -10,10 +10,6 @@ MUX74HC4067 mux(2, 3, 4, 5, 6); // Multiplexer Pins
 const int bnum = 12;
 const int pnum = 2;
 
-//Button Mode Pins
-int midi_mode = 10;
-int key_mode = 11;
-
 // Potentiometer Pins
 int pots[pnum] = {A1, A2};
 int vol = A0;
@@ -46,8 +42,6 @@ void setup() {
     pinMode(pots[i], INPUT);
   }
 
-  pinMode(midi_mode, INPUT_PULLUP);
-  pinMode(key_mode, INPUT_PULLUP);
   pinMode(vol, INPUT);
 
   // Serial Port Setup
@@ -73,17 +67,11 @@ void controlChange(byte channel, byte control, byte value) {
 */ // Pro Micro
 
 void loop() {
-  if (midi_mode == 0) { // Launchpad Mode
     // Button Method
     button();
 
     // Potentiomter Method
     pot();
-  } else if (key_mode == 0) { // Keyboard Mode
-    // Keyboard Method
-    key();
-  }
-  
 }
 
 void button() {
