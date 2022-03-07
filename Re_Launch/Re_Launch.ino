@@ -1,8 +1,8 @@
 #include <MUX74HC4067.h>
-#include <MIDI.h>
-// #include "MIDIUSB.h" // Pro Micro
+//#include <MIDI.h>
+#include "MIDIUSB.h" // Pro Micro
 
-MIDI_CREATE_DEFAULT_INSTANCE();
+//MIDI_CREATE_DEFAULT_INSTANCE();
 
 MUX74HC4067 mux(2, 3, 4, 5, 6); // Multiplexer Pins
 
@@ -49,7 +49,7 @@ void setup() {
 
 }
 
-/* 
+ 
 void noteOn(byte channel, byte pitch, byte velocity) {
   midiEventPacket_t noteOn = {0x09, 0x90 | channel, pitch, velocity};
   MidiUSB.sendMIDI(noteOn);
@@ -64,7 +64,7 @@ void controlChange(byte channel, byte control, byte value) {
   midiEventPacket_t event = {0x0B, 0xB0 | channel, control, value};
   MidiUSB.sendMIDI(event);
 }
-*/ // Pro Micro
+ // Pro Micro
 
 void loop() {
     // Button Method
@@ -141,9 +141,9 @@ void button() {
     if(oldstate[10] != newstate[10] && bank<16) {
       if(newstate[10] == LOW) {
         bank++;
-        MIDI.sendControlChange(12, bank, ch);
-        // controlChange(ch, 12, bank); 
-        // MidiUSB.flush(); // Pro Micro
+        //MIDI.sendControlChange(12, bank, ch);
+        controlChange(ch, 12, bank); 
+        MidiUSB.flush(); // Pro Micro
         
       }
       oldstate[10] = newstate[10];
@@ -151,9 +151,9 @@ void button() {
     } else if(oldstate[11] != newstate[11] && bank>0) {
       if(newstate[11] == LOW) {
         bank--;
-        MIDI.sendControlChange(12, bank, ch);
-        // controlChange(ch, 12, bank); 
-        // MidiUSB.flush(); // Pro Micro
+        //MIDI.sendControlChange(12, bank, ch);
+        controlChange(ch, 12, bank); 
+        MidiUSB.flush(); // Pro Micro
         
       }
       oldstate[11] = newstate[11];
@@ -171,17 +171,17 @@ void button() {
 
         // Sending Midi Notes
         if(newstate[i] == 0) {
-          MIDI.sendNoteOn(note[i] + oct, 127, ch);
-          // noteOn(ch, note[i] + oct, 127); 
-          // MidiUSB.flush(); // Pro Micro
+          //MIDI.sendNoteOn(note[i] + oct, 127, ch);
+          noteOn(ch, note[i] + oct, 127); 
+          MidiUSB.flush(); // Pro Micro
 
         } 
         
         // Turning Off Midi Notes
         else {
-          MIDI.sendNoteOff(note[i] + oct, 0, ch);
-          // noteOff(ch, note[i] + oct, 0); 
-          // MidiUSB.flush(); // Pro Micro
+          //MIDI.sendNoteOff(note[i] + oct, 0, ch);
+          noteOff(ch, note[i] + oct, 0); 
+          MidiUSB.flush(); // Pro Micro
           
         }
 
@@ -201,9 +201,9 @@ void pot() {
 
   // Sending CC7 to Midi
   if(oldp != newp) {
-    MIDI.sendControlChange(7, newp, ch);
-    // controlChange(ch, 7, newp); 
-    // MidiUSB.flush(); // Pro Micro
+    //MIDI.sendControlChange(7, newp, ch);
+    controlChange(ch, 7, newp); 
+    MidiUSB.flush(); // Pro Micro
     
     oldp = newp;
     
@@ -213,13 +213,9 @@ void pot() {
     newstatep[i] = analogRead(pots[i])/8;
 
     if(oldstatep[i] != newstatep[i]) {
-      MIDI.sendControlChange(8 + i + add, newstatep[i], ch);
-      // controlChange(ch, 8 + i + add, newp); 
-      // MidiUSB.flush(); // Pro Micro
+      //MIDI.sendControlChange(8 + i + add, newstatep[i], ch);
+      controlChange(ch, 8 + i + add, newp); 
+      MidiUSB.flush(); // Pro Micro
     }
   }
-}
-
-void key() {
-
 }
