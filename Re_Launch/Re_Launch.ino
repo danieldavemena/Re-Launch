@@ -49,7 +49,7 @@ void setup() {
 
 }
 
- 
+
 void noteOn(byte channel, byte pitch, byte velocity) {
   midiEventPacket_t noteOn = {0x09, 0x90 | channel, pitch, velocity};
   MidiUSB.sendMIDI(noteOn);
@@ -67,11 +67,12 @@ void controlChange(byte channel, byte control, byte value) {
  // Pro Micro
 
 void loop() {
-    // Button Method
-    button();
+  // Button Method
+  button();
 
-    // Potentiomter Method
-    pot();
+  // Potentiomter Method
+  pot();
+  
 }
 
 void button() {
@@ -86,7 +87,7 @@ void button() {
       newstate[i] = mux.read(i);
     }
 
-    // Octave Up
+    // Octave Change
     if(oldstate[8] != newstate[8]) {
       if(newstate[8] == LOW) {
         oct = oct + 12;
@@ -94,10 +95,7 @@ void button() {
       }
       oldstate[8] = newstate[8];
 
-    } 
-
-    // Octave Down
-    else if(oldstate[9] != newstate[9]) {
+    } else if(oldstate[9] != newstate[9]) {
       if(newstate[9] == LOW) {
         oct = oct - 12;
         
@@ -196,7 +194,8 @@ void button() {
 
 void pot() {
   // CC7 Potentiomenter Reading
-  newp = analogRead(vol)/8;
+  int c = analogRead(vol)/8;
+  newp = c;
 
   // Sending CC7 to Midi
   if(oldp != newp) {
@@ -208,15 +207,17 @@ void pot() {
     
   }
 
+  // Encoder Dependent CC
   for(int i=0; i<pnum; i++) {
     newstatep[i] = analogRead(pots[i])/8;
 
     if(oldstatep[i] != newstatep[i]) {
       //MIDI.sendControlChange(8 + i + add, newstatep[i], ch);
-      controlChange(ch, 8 + i + add, newstatep[i]); 
+      controlChange(ch, 8 + i + add, newp); 
       MidiUSB.flush(); // Pro Micro
 
       oldstatep[i] = newstatep[i];
     }
   }
+  
 }
