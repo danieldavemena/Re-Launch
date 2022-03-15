@@ -214,8 +214,10 @@ void pot() {
 
     if(oldstatep[i] != newstatep[i]) {
       //MIDI.sendControlChange(8 + i + add, newstatep[i], ch);
-      controlChange(ch, 8 + i + add, newp); 
+      controlChange(ch, 8 + i + add, newstatep[i]); 
       MidiUSB.flush(); // Pro Micro
+
+      oldstatep[i] = newstatep[i];
     }
   }
 }

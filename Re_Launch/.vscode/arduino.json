@@ -1,0 +1,6 @@
+{
+    "port": "/dev/ttyACM0",
+    "board": "arduino:avr:micro",
+    "programmer": "arduino:avrispmkii",
+    "sketch": "Re_Launch.ino"
+}
