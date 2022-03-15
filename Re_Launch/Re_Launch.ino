@@ -196,8 +196,7 @@ void button() {
 
 void pot() {
   // CC7 Potentiomenter Reading
-  int c = analogRead(vol)/8;
-  newp = c;
+  newp = analogRead(vol)/8;
 
   // Sending CC7 to Midi
   if(oldp != newp) {
