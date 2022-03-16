@@ -8,17 +8,19 @@ MUX74HC4067 mux(2, 3, 4, 5, 6); // Multiplexer Pins
 
 // Button and Potentiometer Count
 const int bnum = 12;
-const int pnum = 2;
 
 // Potentiometer Pins
-int pots[pnum] = {A1, A2};
+int pot1 = A1;
+int pot2 = A2;
 int vol = A0;
 
 // Potentiometer State
-int oldstatep[pnum] = {0}; 
-int newstatep[pnum] = {0};
 int oldp = 0; 
 int newp = 0;
+int oldp1 = 0; 
+int newp1 = 0;
+int oldp2 = 0; 
+int newp2 = 0;
 
 // Encoder
 int add = 0;
@@ -30,7 +32,7 @@ int newstate[bnum] = {0};
 // MIDI Notes
 int note[bnum] = {36, 37, 38, 39, 40, 41, 42, 43, 45, 46, 47, 48};
 int oct = 0;
-int ch = 1;
+int ch = 0;
 int bank = 0;
 
 void setup() {
@@ -38,14 +40,12 @@ void setup() {
   mux.signalPin(7, INPUT_PULLUP, DIGITAL);
 
   // Potentiometer Pin Setup
-  for(int i=0; i<pnum; i++) {
-    pinMode(pots[i], INPUT);
-  }
-
-  pinMode(vol, INPUT);
+  pinMode(vol, INPUT_PULLUP);
+  pinMode(pot1, INPUT_PULLUP);
+  pinMode(pot2, INPUT_PULLUP);
 
   // Serial Port Setup
-   Serial.begin(115200);
+   Serial.begin(9600);
 
 }
 
@@ -107,28 +107,28 @@ void button() {
     // Channel Selection
     if(oldstate[0] != newstate[0]) {
       if(newstate[0] == LOW) {
-        ch = 1;
+        ch = 0;
         
       }
       oldstate[0] = newstate[0];
 
     } else if(oldstate[1] != newstate[1]) {
       if(newstate[1] == LOW) {
-        ch = 2;
+        ch = 1;
         
       }
       oldstate[1] = newstate[1];
 
     } else if(oldstate[2] != newstate[2]) {
       if(newstate[2] == LOW) {
-        ch = 3;
+        ch = 2;
         
       }
       oldstate[2] = newstate[2];
 
     } else if(oldstate[3] != newstate[3]) {
       if(newstate[3] == LOW) {
-        ch = 4;
+        ch = 3;
         
       }
       oldstate[3] = newstate[3];
@@ -193,31 +193,35 @@ void button() {
 }
 
 void pot() {
-  // CC7 Potentiomenter Reading
-  int c = analogRead(vol)/8;
-  newp = c;
+  // Potentiomenter Reading
+  newp = analogRead(vol)/8;
+  newp1 = analogRead(pot1)/8;
+  newp2 = analogRead(pot2)/8;
 
   // Sending CC7 to Midi
   if(oldp != newp) {
     //MIDI.sendControlChange(7, newp, ch);
-    controlChange(ch, 7, newp); 
+    controlChange(ch, 6, newp); 
     MidiUSB.flush(); // Pro Micro
     
-    oldp = newp;
-    
+    oldp = newp;  
   }
 
   // Encoder Dependent CC
-  for(int i=0; i<pnum; i++) {
-    newstatep[i] = analogRead(pots[i])/8;
+  if(oldp1 != newp1) {
+    //MIDI.sendControlChange(8, newp, ch);
+    controlChange(ch, 7 + add, newp1); 
+    MidiUSB.flush(); // Pro Micro
+    
+    oldp1 = newp1;  
+  }
 
-    if(oldstatep[i] != newstatep[i]) {
-      //MIDI.sendControlChange(8 + i + add, newstatep[i], ch);
-      controlChange(ch, 8 + i + add, newp); 
-      MidiUSB.flush(); // Pro Micro
-
-      oldstatep[i] = newstatep[i];
-    }
+  if(oldp2 != newp2) {
+    //MIDI.sendControlChange(9, newp, ch);
+    controlChange(ch, 8 + add, newp2); 
+    MidiUSB.flush(); // Pro Micro
+    
+    oldp2 = newp2;  
   }
   
 }
