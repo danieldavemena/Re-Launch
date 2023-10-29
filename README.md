@@ -34,7 +34,7 @@ Hardware Requirements:
   - Print "drilltemplate.svg"
   - Attach the template on the acrylic with adhesive
   - Start drilling holes
-  - NOTE: MAKE SURE TO DRILL A HOLE IN THE MIDDLE BEFOR PROCEEDING WITH HOLE SAW
+  - NOTE: MAKE SURE TO DRILL A HOLE IN THE MIDDLE BEFORE PROCEEDING WITH HOLE SAW
 
 2. Preparing the software
   - Download the necessary libraries
